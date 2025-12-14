@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دکتر محمد واحدی | طرح لبخند و زیبایی</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Vazirmatn', 'sans-serif'],
+                    },
+                    colors: {
+                        lux: {
+                            base: '#F8FAFC',      /* سفید یخی برای پس زمینه */
+                            surface: '#FFFFFF',   /* سفید مطلق برای کارت‌ها */
+                            dark: '#1e293b',      /* رنگ متن اصلی */
+                            gold: '#Bfa15f',      /* طلایی مات (تیره‌تر برای دیده شدن روی سفید) */
+                            accent: '#0EA5E9',    /* آبی پزشکی */
+                            textLight: '#64748b'  /* خاکستری متون */
+                        }
+                    },
+                    backgroundImage: {
+                        'gold-gradient': 'linear-gradient(135deg, #C5A059 0%, #E6C785 50%, #B08D55 100%)',
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
+                        'gold': '0 10px 30px -5px rgba(191, 161, 95, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { 
+            background-color: #F8FAFC;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        /* افکت‌های انیمیشن */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-anim {
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(4px);
+            transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .swiper-slide-active .hero-anim {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+        .swiper-slide-active .d-1 { transition-delay: 0.2s; }
+        .swiper-slide-active .d-2 { transition-delay: 0.5s; }
+        .swiper-slide-active .d-3 { transition-delay: 0.8s; }
+        .swiper-slide-active .d-4 { transition-delay: 1.1s; }
+
+        /* گلس مورفیسم روشن */
+        .glass-light {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* منوی موبایل */
+        #mobile-menu { transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        #mobile-menu.hidden-menu { transform: translateX(100%); }
+        #mobile-menu.visible-menu { transform: translateX(0); }
+    </style>
+</head>
+<body class="antialiased selection:bg-lux-gold selection:text-white pb-16 md:pb-0">
+
+    <header class="fixed top-0 w-full z-50 transition-all duration-300">
+        <div class="glass-light w-full shadow-sm">
+            <div class="container mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
+                
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-lux-gold text-white rounded-lg flex items-center justify-center shadow-lg shadow-lux-gold/40">
+                        <i class="fas fa-tooth text-lg"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-lg font-black text-lux-dark tracking-tighter uppercase">DR. VAHEDI</span>
+                        <span class="text-[10px] text-lux-gold font-bold tracking-[0.2em] uppercase">Dental Clinic</span>
+                    </div>
+                </a>
+
+                <nav class="hidden lg:flex items-center gap-8 bg-white/50 px-6 py-2 rounded-full border border-gray-100">
+                    <a href="#" class="text-sm font-bold text-lux-dark hover:text-lux-gold transition relative group">
+                        خانه <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-lux-gold transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#about" class="text-sm font-medium text-gray-500 hover:text-lux-gold transition">درباره پزشک</a>
+                    <a href="#services" class="text-sm font-medium text-gray-500 hover:text-lux-gold transition">خدمات</a>
+                    <a href="#contact" class="text-sm font-medium text-gray-500 hover:text-lux-gold transition">تماس</a>
+                </nav>
+
+                <div class="flex items-center gap-3">
+                    <a href="javascript:void(0)" onclick="openModal()" class="hidden md:flex items-center gap-2 bg-lux-dark text-white font-bold text-xs px-5 py-2.5 rounded-lg hover:bg-lux-gold transition shadow-lg duration-300">
+                        رزرو آنلاین
+                        <i class="fas fa-calendar-check"></i>
+                    </a>
+                    <button id="menu-btn" class="lg:hidden text-lux-dark text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-white hidden-menu flex flex-col justify-center items-center">
+        <button id="close-menu-btn" class="absolute top-6 left-6 text-lux-dark text-3xl"><i class="fas fa-times"></i></button>
+        <nav class="flex flex-col items-center gap-8 text-center z-10">
+            <a href="#" class="mobile-link text-xl font-bold text-lux-dark">صفحه اصلی</a>
+            <a href="#about" class="mobile-link text-xl font-medium text-gray-600">رزومه دکتر</a>
+            <a href="#services" class="mobile-link text-xl font-medium text-gray-600">خدمات درمانی</a>
+            <a href="javascript:void(0)" onclick="openModal()" class="mt-4 bg-lux-gold text-white px-8 py-2 rounded-full font-bold shadow-gold mobile-link">دریافت نوبت</a>
+        </nav>
+    </div>
+
+    <section class="relative h-[85vh] md:h-screen w-full overflow-hidden mt-16 md:mt-0">
+        <div class="swiper mainSlider h-full w-full">
+            <div class="swiper-wrapper">
+                
+                <div class="swiper-slide relative">
+                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-105" style="background-image: url('https://images.unsplash.com/photo-1629909615184-74f495363b63?q=80&w=2560&auto=format&fit=crop');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent"></div>
+                    
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="container mx-auto px-6 md:px-12">
+                            <div class="max-w-2xl">
+                                <div class="hero-anim d-1 flex items-center gap-3 mb-3">
+                                    <span class="h-[2px] w-8 bg-lux-gold"></span>
+                                    <span class="text-lux-gold uppercase tracking-[0.2em] text-xs font-bold">لبخند هالیوودی</span>
+                                </div>
+                                <h1 class="hero-anim d-2 text-4xl md:text-7xl font-black text-lux-dark leading-tight mb-5">
+                                    طراحی لبخندی <br>
+                                    <span class="text-transparent bg-clip-text bg-gold-gradient">درخشان و طبیعی</span>
+                                </h1>
+                                <p class="hero-anim d-3 text-gray-600 text-sm md:text-lg font-medium leading-relaxed mb-8 max-w-lg">
+                                    در کلینیک دکتر واحدی، ما با استفاده از تکنولوژی دیجیتال، لبخندی متناسب با فرم صورت شما خلق می‌کنیم.
+                                </p>
+                                
+                                <div class="hero-anim d-4 flex gap-3">
+                                    <a href="#about" class="px-5 py-2 bg-lux-dark text-white text-sm font-bold rounded-md hover:bg-lux-gold transition shadow-lg">
+                                        مشاهده رزومه
+                                    </a>
+                                    <a href="#services" class="px-5 py-2 border-2 border-lux-dark text-lux-dark text-sm font-bold rounded-md hover:bg-lux-dark hover:text-white transition">
+                                        خدمات ما
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide relative">
+                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1516051662668-f3d3468b8d63?q=80&w=2560&auto=format&fit=crop');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent"></div>
+                    
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="container mx-auto px-6 md:px-12">
+                            <div class="max-w-2xl">
+                                <div class="hero-anim d-1 flex items-center gap-3 mb-3">
+                                    <span class="h-[2px] w-8 bg-lux-accent"></span>
+                                    <span class="text-lux-accent uppercase tracking-[0.2em] text-xs font-bold">بدون درد</span>
+                                </div>
+                                <h1 class="hero-anim d-2 text-4xl md:text-7xl font-black text-lux-dark leading-tight mb-5">
+                                    درمان دیجیتال <br>
+                                    <span class="text-lux-accent">با آرامش کامل</span>
+                                </h1>
+                                <p class="hero-anim d-3 text-gray-600 text-sm md:text-lg font-medium leading-relaxed mb-8 max-w-lg">
+                                    تجربه دندانپزشکی مدرن با دستگاه‌های لیزر و اسکنر سه بعدی بدون قالب‌گیری سنتی.
+                                </p>
+                                <div class="hero-anim d-4">
+                                    <a href="javascript:void(0)" onclick="openModal()" class="px-5 py-2 bg-lux-accent text-white text-sm font-bold rounded-md hover:bg-blue-600 transition shadow-lg shadow-blue-200">
+                                        دریافت نوبت
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="hidden md:flex absolute bottom-10 left-10 z-20 gap-3">
+                <div class="swiper-button-prev !static !w-10 !h-10 !m-0 rounded-full border border-gray-300 text-gray-600 hover:bg-lux-gold hover:text-white hover:border-transparent transition flex items-center justify-center after:!hidden"><i class="fas fa-arrow-right text-sm"></i></div>
+                <div class="swiper-button-next !static !w-10 !h-10 !m-0 rounded-full border border-gray-300 text-gray-600 hover:bg-lux-gold hover:text-white hover:border-transparent transition flex items-center justify-center after:!hidden"><i class="fas fa-arrow-left text-sm"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto px-4 relative z-20 -mt-16 pointer-events-none">
+        <div class="bg-white rounded-2xl p-6 md:p-8 shadow-soft pointer-events-auto reveal border border-gray-100">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 divide-x-0 md:divide-x divide-gray-100 divide-x-reverse">
+                <div class="text-center">
+                    <h4 class="text-3xl font-black text-lux-dark mb-1">+۱۵</h4>
+                    <p class="text-gray-500 text-xs font-bold">سال تجربه</p>
+                </div>
+                <div class="text-center">
+                    <h4 class="text-3xl font-black text-lux-dark mb-1">+۵۰۰۰</h4>
+                    <p class="text-gray-500 text-xs font-bold">پرونده موفق</p>
+                </div>
+                <div class="text-center">
+                    <h4 class="text-3xl font-black text-lux-dark mb-1">۱۰۰٪</h4>
+                    <p class="text-gray-500 text-xs font-bold">رضایت بیماران</p>
+                </div>
+                <div class="text-center">
+                    <h4 class="text-3xl font-black text-lux-dark mb-1">۲۴/۷</h4>
+                    <p class="text-gray-500 text-xs font-bold">پشتیبانی</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="py-24 overflow-hidden" id="about">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                
+                <div class="w-full lg:w-5/12 reveal relative">
+                    <div class="absolute -top-4 -right-4 w-2/3 h-2/3 bg-lux-gold/10 rounded-3xl -z-10"></div>
+                    <div class="absolute -bottom-4 -left-4 w-2/3 h-2/3 bg-lux-accent/10 rounded-3xl -z-10"></div>
+                    
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=1000&auto=format&fit=crop" alt="Doctor" class="w-full h-auto object-cover hover:scale-105 transition duration-700">
+                        
+                        <div class="absolute bottom-0 left-0 w-full bg-white/90 backdrop-blur p-4 border-t border-gray-100">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="text-lux-dark font-black text-xl">دکتر محمد واحدی</div>
+                                    <div class="text-lux-gold text-xs font-bold uppercase">متخصص پروتز و زیبایی</div>
+                                </div>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Signature_sample.svg/1200px-Signature_sample.svg.png" class="h-8 opacity-40">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-7/12 reveal">
+                    <span class="text-lux-gold font-bold uppercase tracking-widest text-xs mb-2 block">درباره ما</span>
+                    <h2 class="text-3xl md:text-5xl font-black text-lux-dark mb-6">
+                        تعهد به زیبایی <br>
+                        <span class="text-gray-400 font-light">تعهد به سلامت شما</span>
+                    </h2>
+                    
+                    <p class="text-gray-600 leading-8 text-justify mb-8">
+                        دکتر محمد واحدی، فارغ‌التحصیل ممتاز دانشگاه تهران و دارای فلوشیپ زیبایی از ایتالیا، با بیش از ۱۵ سال تجربه در خلق لبخندهای ماندگار. ایشان عضو انجمن دندانپزشکان زیبایی آمریکا (AACD) بوده و کلینیک ایشان مجهز به پیشرفته‌ترین اسکنرهای داخل دهانی و لیزرهای دندانپزشکی می‌باشد.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center gap-3 p-3 bg-white rounded-lg shadow-sm border border-gray-100">
+                            <i class="fas fa-graduation-cap text-lux-gold text-xl"></i>
+                            <div>
+                                <div class="font-bold text-lux-dark text-sm">فلوشیپ زیبایی</div>
+                                <div class="text-xs text-gray-500">دانشگاه جنوا ایتالیا</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-white rounded-lg shadow-sm border border-gray-100">
+                            <i class="fas fa-medal text-lux-gold text-xl"></i>
+                            <div>
+                                <div class="font-bold text-lux-dark text-sm">عضو رسمی AACD</div>
+                                <div class="text-xs text-gray-500">انجمن زیبایی آمریکا</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-gray-50" id="services">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <span class="text-lux-gold uppercase tracking-widest text-xs font-bold block mb-3">تخصص ما</span>
+                <h2 class="text-3xl md:text-4xl font-black text-lux-dark">خدمات کلینیک</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="reveal bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition duration-300 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-lux-gold/10 rounded-xl flex items-center justify-center text-lux-gold text-2xl mb-6 group-hover:bg-lux-gold group-hover:text-white transition">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-lux-dark mb-3">لمینت و زیبایی</h3>
+                    <p class="text-gray-500 text-sm leading-7 mb-6">اصلاح طرح لبخند با ونیرهای سرامیکی فوق نازک و طبیعی.</p>
+                    <a href="#" class="inline-flex items-center text-lux-gold font-bold text-xs uppercase tracking-wider hover:gap-2 transition-all">مشاهده <i class="fas fa-arrow-left mr-1"></i></a>
+                </div>
+
+                <div class="reveal bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition duration-300 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-lux-accent/10 rounded-xl flex items-center justify-center text-lux-accent text-2xl mb-6 group-hover:bg-lux-accent group-hover:text-white transition">
+                        <i class="fas fa-tooth"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-lux-dark mb-3">ایمپلنت دیجیتال</h3>
+                    <p class="text-gray-500 text-sm leading-7 mb-6">کاشت دندان فوری با راهنمای جراحی سه بعدی و بدون بخیه.</p>
+                    <a href="#" class="inline-flex items-center text-lux-accent font-bold text-xs uppercase tracking-wider hover:gap-2 transition-all">مشاهده <i class="fas fa-arrow-left mr-1"></i></a>
+                </div>
+
+                <div class="reveal bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition duration-300 border border-gray-100 group">
+                    <div class="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-gray-600 text-2xl mb-6 group-hover:bg-lux-dark group-hover:text-white transition">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-lux-dark mb-3">بلیچینگ دندان</h3>
+                    <p class="text-gray-500 text-sm leading-7 mb-6">سفید کردن دندان‌ها تا ۳ درجه در یک جلسه با دستگاه زوم.</p>
+                    <a href="#" class="inline-flex items-center text-gray-600 font-bold text-xs uppercase tracking-wider hover:gap-2 transition-all">مشاهده <i class="fas fa-arrow-left mr-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-lux-dark text-white pt-20 pb-24 md:pb-12 border-t border-gray-800" id="contact">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-2 mb-6">
+                        <i class="fas fa-tooth text-lux-gold text-2xl"></i>
+                        <span class="text-2xl font-bold tracking-widest uppercase">DR. VAHEDI</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-7 text-justify max-w-md">
+                        در کلینیک دکتر واحدی، ما متعهد به ارائه بالاترین سطح خدمات دندانپزشکی هستیم. لبخند شما، زیباترین لباس شماست.
+                    </p>
+                </div>
+                
+                <div>
+                    <h5 class="font-bold text-white mb-6">لینک‌های مفید</h5>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-lux-gold transition">گالری تصاویر</a></li>
+                        <li><a href="#" class="hover:text-lux-gold transition">مقالات دندانپزشکی</a></li>
+                        <li><a href="#" class="hover:text-lux-gold transition">قوانین و مقررات</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="font-bold text-white mb-6">ارتباط با ما</h5>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="flex items-center gap-3"><i class="fas fa-phone text-lux-gold"></i> ۰۲۱-۸۸۸۸۱۲۳۴</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-map-marker-alt text-lux-gold"></i> تهران، جردن، خیابان گلخانه</li>
+                    </ul>
+                    <div class="flex gap-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-white hover:scale-110 transition"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white hover:scale-110 transition"><i class="fab fa-whatsapp text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-xs text-gray-500">
+                &copy; ۲۰۲۵ کلینیک دندانپزشکی دکتر محمد واحدی.
+            </div>
+        </div>
+    </footer>
+
+    <div class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-lg border-t border-gray-200 z-50 px-6 py-3 md:hidden flex justify-between items-center shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+        <a href="#" class="flex flex-col items-center gap-1 text-lux-gold">
+            <i class="fas fa-home text-lg"></i>
+            <span class="text-[10px] font-bold">خانه</span>
+        </a>
+        <a href="tel:02188881234" class="flex flex-col items-center gap-1 text-gray-400 hover:text-lux-dark">
+            <i class="fas fa-phone text-lg"></i>
+            <span class="text-[10px] font-medium">تماس</span>
+        </a>
+        <a href="#services" class="flex flex-col items-center gap-1 text-gray-400 hover:text-lux-dark">
+            <i class="fas fa-tooth text-lg"></i>
+            <span class="text-[10px] font-medium">خدمات</span>
+        </a>
+        <a href="javascript:void(0)" onclick="openModal()" class="flex items-center gap-2 bg-lux-dark text-white px-4 py-2 rounded-lg font-bold text-xs shadow-md">
+            <i class="fas fa-calendar-check"></i>
+            نوبت
+        </a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // تنظیمات اسلایدر
+        new Swiper(".mainSlider", {
+            loop: true,
+            effect: 'fade', 
+            speed: 1500,
+            autoplay: { delay: 6000, disableOnInteraction: false },
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+        });
+
+        // منوی موبایل
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden-menu');
+            mobileMenu.classList.toggle('visible-menu');
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(l => l.addEventListener('click', toggleMenu));
+
+        // اسکرول Reveal
+        window.addEventListener('scroll', reveal);
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+            for (var i = 0; i < reveals.length; i++) {
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 100;
+                if (revealtop < windowheight - revealpoint) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        reveal();
+
+        function openModal() {
+            alert('سیستم نوبت‌دهی آنلاین به زودی فعال می‌شود.');
+        }
+    </script>
+</body>
+</html>
